@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class MarkovDecisionProcess:
-    def __init__(self,states, actions, probability, reward, gamma, precision = 0.01, maxiter = 1000):
+    def __init__(self,states, actions, probability, reward, gamma, precision = 0.01):
         self.states = states
         self.actions = actions
         self.N_states = len(states)
@@ -11,7 +11,6 @@ class MarkovDecisionProcess:
         self.R = reward
         self.gamma = gamma
         self.epsilon = precision*(1-gamma)/(2*gamma)
-        self.maxtiter = maxiter
 
     def OptimalBellmanValue(self, V):
         V_opt = np.zeros((self.N_states))
@@ -88,9 +87,7 @@ class MarkovDecisionProcess:
         Error = []
         Pi_1 = Init.copy()
         V_1 = self.PolicyEvaluation(Pi_1)
-        print("ceci est V_1 ",V_1)
         Pi_1 = self.OptimalBellmanPolicy(V_1)
-        print("ceci est Pi_1 ", Pi_1)
         V_2 = self.PolicyEvaluation(Pi_1)
         Error.append(np.max(np.absolute(V_1 - V_star)))
         Error.append(np.max(np.absolute(V_2 - V_star)))
